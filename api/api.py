@@ -27,7 +27,7 @@ class Usuario(Base):
     FECHA_CREACION = Column(TIMESTAMP)
     productos = relationship("Producto", back_populates="usuario")
 
-# Definición del modelo de Producto
+
 class Producto(Base):
     __tablename__ = "PRODUCTOS"
     ID = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -39,13 +39,12 @@ class Producto(Base):
     FECHA_CREACION = Column(TIMESTAMP)
     usuario = relationship("Usuario", back_populates="productos")
 
-# Creación de la base de datos
+
 Base.metadata.create_all(bind=engine)
 
-# Aplicación FastAPI
+
 app = FastAPI()
 
-# Configuración de CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:5500"],
@@ -54,7 +53,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Dependencia para la base de datos
 def get_db():
     db = SessionLocal()
     try:
@@ -62,7 +60,7 @@ def get_db():
     finally:
         db.close()
 
-# Esquemas para validación de datos
+
 class UsuarioSchema(BaseModel):
     NOMBRE: str
     EMAIL: str
@@ -111,7 +109,7 @@ def crear_usuario(usuario: UsuarioSchema, db: Session = Depends(get_db)):
     if usuario_existente:
         raise HTTPException(status_code=400, detail="El email ya está registrado")
 
-    # Guardar contraseña en texto plano (sin hashear)
+    # Guardar contraseña en texto plano 
     nuevo_usuario = Usuario(
         NOMBRE=usuario.NOMBRE,
         EMAIL=usuario.EMAIL,
@@ -137,13 +135,13 @@ def login(credenciales: LoginSchema, db: Session = Depends(get_db)):
     if not usuario:
         raise HTTPException(status_code=401, detail="Email o contraseña incorrectos")
     
-    # Comparación directa de contraseñas en texto plano
+    
     if credenciales.CONTRASENA != usuario.CONTRASENA:
         raise HTTPException(status_code=401, detail="Email o contraseña incorrectos")
 
     token_data = {
         "sub": usuario.EMAIL,
-        "usuario_id": usuario.ID,  # Añadido ID de usuario al token
+        "usuario_id": usuario.ID, 
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=2),
     }
     token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
@@ -156,7 +154,7 @@ def login(credenciales: LoginSchema, db: Session = Depends(get_db)):
     response.headers["Access-Control-Allow-Origin"] = "http://127.0.0.1:5500"
     return response
 
-# Rutas de Productos (modificadas para filtrar por usuario)
+# Rutas de Productos 
 @app.post("/api/productos")
 def crear_producto(producto: ProductoSchema, request: Request, db: Session = Depends(get_db)):
     usuario = obtener_usuario_actual(request, db)
@@ -208,7 +206,7 @@ def eliminar_producto(producto_id: int, request: Request, db: Session = Depends(
     if not producto:
         raise HTTPException(status_code=404, detail="Producto no encontrado")
 
-    # Verificar que el producto pertenece al usuario
+
     if producto.ID_USER != usuario.ID:
         raise HTTPException(status_code=403, detail="No tienes permisos para eliminar este producto")
 

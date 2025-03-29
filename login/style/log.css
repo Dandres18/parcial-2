@@ -62,11 +62,6 @@ body{
     place-content: center;
 }
 
-.input-container span svg {
-    color: #9CA3AF;
-    width: 1rem;
-    height: 1rem;
-}
 
 .submit {
     display: block;

@@ -1,8 +1,8 @@
--- Crear la base de datos
+#Crear la base de datos
 CREATE DATABASE IF NOT EXISTS gestion_productos;
 USE gestion_productos;
 
--- Crear la tabla de usuarios
+#Crear la tabla de usuarios
 CREATE TABLE USUARIOS (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     NOMBRE VARCHAR(100) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE USUARIOS (
     FECHA_CREACION TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Crear la tabla de productos
+#Crear la tabla de productos
 CREATE TABLE PRODUCTOS (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     NOMBRE VARCHAR(100) NOT NULL,
@@ -23,11 +23,11 @@ CREATE TABLE PRODUCTOS (
     FOREIGN KEY (ID_USER) REFERENCES USUARIOS(ID) ON DELETE SET NULL
 );
 
--- Insertar usuario de prueba
+#Insertar usuario de prueba
 INSERT INTO USUARIOS (NOMBRE, EMAIL, CONTRASENA) VALUES 
 ('Admin', 'admin@example.com', 'admin123');
 
--- Insertar productos de prueba
+#Insertar productos de prueba
 INSERT INTO PRODUCTOS (NOMBRE, DESCRIPCION, VALOR, CANTIDAD, ID_USER) VALUES 
 ('Producto 1', 'Descripción del producto 1', 19.99, 10, 1),
 ('Producto 2', 'Descripción del producto 2', 29.99, 5, 1);

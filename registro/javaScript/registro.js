@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const datos = await respuesta.json();
             alert(datos.mensaje || "Registro exitoso");
-            window.location.href = "http://127.0.0.1:5500/login/log.html";
+            window.location.href = "http://127.0.0.1:5500/login/index.html";
         } catch (error) {
             console.error("Error completo:", error);
             alert(error.message || "Error al conectar con el servidor");

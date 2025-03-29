@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    EMAIL: email,  // 🔹 Ahora en mayúsculas para coincidir con FastAPI
+                    EMAIL: email,  
                     CONTRASENA: contrasena,
                 }),
             });
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Guardar el token en localStorage para futuras peticiones
             localStorage.setItem("token", datos.token);
 
-            // Redirigir al dashboard
+            // Redirigir al 
             window.location.href = "http://127.0.0.1:5500/home/home.html";
         } catch (error) {
             console.error("Error:", error);
